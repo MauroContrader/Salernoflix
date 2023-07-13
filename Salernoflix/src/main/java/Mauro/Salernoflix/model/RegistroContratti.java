@@ -18,6 +18,7 @@ public class RegistroContratti {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private TipologiaContratto tipologiaContratto;
 
     private LocalDateTime dataInizio;

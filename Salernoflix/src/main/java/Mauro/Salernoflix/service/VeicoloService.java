@@ -17,7 +17,7 @@ public class VeicoloService {
     VeicoloRepository veicoloRepository;
 
     public Veicolo creaVeicolo(VeicoloRequest veicoloRequest) {
-        if (veicoloRepository.existsBySeriale(veicoloRequest.getSeriale())) {
+        if (!veicoloRepository.existsBySeriale(veicoloRequest.getSeriale())) {
             return veicoloRepository.save(Veicolo
                 .builder()
                 .nome(veicoloRequest.getNome())
@@ -28,8 +28,7 @@ public class VeicoloService {
                 .seriale(veicoloRequest.getSeriale())
                 .tipologiaVeicolo(veicoloRequest.getTipologiaVeicolo())
                 .build());
-        }
-        else
+        } else
             throw new RuntimeException("Seriale già presente in archivio.");
     }
 
