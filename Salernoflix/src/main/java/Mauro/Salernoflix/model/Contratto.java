@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistroContratti {
+public class Contratto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

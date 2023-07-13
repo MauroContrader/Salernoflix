@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prenotazioni {
+public class Prenotazione {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
