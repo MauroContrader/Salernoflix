@@ -1,7 +1,6 @@
 package Mauro.Salernoflix.service;
 
 import Mauro.Salernoflix.Config.JwtService;
-import Mauro.Salernoflix.dto.Enum.Role;
 import Mauro.Salernoflix.dto.Requests.AuthenticationRequest;
 import Mauro.Salernoflix.dto.Requests.RegisterRequest;
 import Mauro.Salernoflix.dto.Responses.AuthenticationResponse;

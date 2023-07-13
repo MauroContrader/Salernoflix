@@ -27,13 +27,13 @@ public class UserController {
 
     @GetMapping("/users")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
-    private ResponseEntity<List<User>> getAll() {
+    public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.ok(userService.getAll());
     }
 
     @GetMapping("/anagraficaUtente")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
-    private ResponseEntity<AnagraficaUtente> getAnagraficaUtente() {
+    public ResponseEntity<AnagraficaUtente> getAnagraficaUtente() {
         return ResponseEntity.ok(userService.getAnagraficaUtente());
     }
 

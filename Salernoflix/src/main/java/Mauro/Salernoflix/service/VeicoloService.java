@@ -8,8 +8,6 @@ import Mauro.Salernoflix.security.SalSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class VeicoloService {
 
