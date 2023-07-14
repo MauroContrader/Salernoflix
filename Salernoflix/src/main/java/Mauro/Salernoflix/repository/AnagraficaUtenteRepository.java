@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AnagraficaUtenteRepository extends JpaRepository<AnagraficaUtente,Long> {
 
+    AnagraficaUtente findByCodiceFiscale(String codiceFiscale);
+
 }

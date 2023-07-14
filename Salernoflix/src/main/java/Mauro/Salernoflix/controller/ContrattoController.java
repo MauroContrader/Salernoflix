@@ -35,7 +35,9 @@ public class ContrattoController {
 
     @GetMapping("/contratti-tipologia")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
-    public ResponseEntity<List<ContrattoResponse>> visualizzaContrattiByTipologia(@RequestParam TipologiaContratto tipologiaContratto) {
-        return ResponseEntity.ok(contrattiService.visualizzaContrattiByTipologia(tipologiaContratto));
+    public ResponseEntity<List<ContrattoResponse>> visualizzaContrattiByTipologia(@RequestParam(defaultValue = "NOLEGGIO") TipologiaContratto tipologiaContratto,
+                                                                                  @RequestParam(defaultValue = "20") int pageSize,
+                                                                                  @RequestParam(defaultValue = "0") int pageNumber) {
+        return ResponseEntity.ok(contrattiService.visualizzaContrattiByTipologia(tipologiaContratto,pageSize,pageNumber));
     }
 }

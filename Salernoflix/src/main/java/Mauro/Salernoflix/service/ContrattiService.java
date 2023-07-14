@@ -58,7 +58,7 @@ public class ContrattiService {
 
     }
 
-    public List<ContrattoResponse> visualizzaContrattiByTipologia(TipologiaContratto tipologiaContratto) {
+    public List<ContrattoResponse> visualizzaContrattiByTipologia(TipologiaContratto tipologiaContratto, int pageSize, int pageNumber) {
         List<Contratto> contratti = contrattoRepository.findByTipologiaContratto(tipologiaContratto);
         List<ContrattoResponse> response = new ArrayList<>();
         contratti.forEach(contratto ->
@@ -72,7 +72,10 @@ public class ContrattiService {
                     .idVeicolo(contratto.getVeicolo().getId())
                     .build())
             );
-        return response;
+        return response.stream()
+            .skip((long) pageSize * pageNumber)
+            .limit(pageSize)
+            .toList();
     }
 
 }
