@@ -35,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAll(pageSize,pageNumber,role));
     }
 
-    @GetMapping("/anagraficaUtente")
+    @GetMapping("/anagraficaUtente-loggato")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
     public ResponseEntity<AnagraficaUtente> getAnagraficaUtente() {
         return ResponseEntity.ok(userService.getAnagraficaUtente());

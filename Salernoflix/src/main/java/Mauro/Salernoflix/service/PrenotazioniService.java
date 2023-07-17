@@ -10,6 +10,8 @@ import Mauro.Salernoflix.security.SalSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PrenotazioniService {
 
@@ -41,4 +43,11 @@ public class PrenotazioniService {
             throw new RuntimeException("Utente non abilitato all'inserimento prenotazioni.");
     }
 
+    public List<Prenotazione> prenotazioni(int pageSize, int pageNumber) {
+        return prenotazioneRepository.findAll().stream()
+            .skip((long) pageSize * pageNumber)
+            .limit(pageSize)
+            .toList();
+
+    }
 }

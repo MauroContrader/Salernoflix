@@ -17,11 +17,11 @@ public class VeicoloRequest {
 
     private String marca;
 
-    private String cilindrata;
+    private Long cilindrata;
 
-    private String cavalli;
+    private Long cavalli;
 
-    private String annoImmatricolazione;
+    private Long annoImmatricolazione;
 
     private String seriale;
 

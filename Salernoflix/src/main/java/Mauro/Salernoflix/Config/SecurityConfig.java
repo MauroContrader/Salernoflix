@@ -36,10 +36,12 @@ public class SecurityConfig {
                 "/actuator/**",
                 "/auth/login",
                 "/auth/register",
-                "/auth/validita-token"
+                "/auth/validita-token",
+                "/auth/attivazione",
+                "/auth/cambio-password"
             )
             .permitAll()
-            .and().authorizeHttpRequests().anyRequest().permitAll()
+            .and().authorizeHttpRequests().anyRequest().authenticated()
             .and().csrf().ignoringRequestMatchers("/**")
             .and().headers().frameOptions().sameOrigin()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ContrattiService {
@@ -59,7 +60,10 @@ public class ContrattiService {
     }
 
     public List<ContrattoResponse> visualizzaContrattiByTipologia(TipologiaContratto tipologiaContratto, int pageSize, int pageNumber) {
-        List<Contratto> contratti = contrattoRepository.findByTipologiaContratto(tipologiaContratto);
+        List<Contratto> contratti;
+        contratti = Objects.nonNull(tipologiaContratto)
+            ? contrattoRepository.findByTipologiaContratto(tipologiaContratto)
+            : contrattoRepository.findAll();
         List<ContrattoResponse> response = new ArrayList<>();
         contratti.forEach(contratto ->
                 response.add(

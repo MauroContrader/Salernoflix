@@ -49,7 +49,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authService.validitaToken(token, username));
     }
 
-    @PostMapping("/email")
+    @PostMapping("/invia-email")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
     private ResponseEntity<Void> sendEmail(@RequestParam String to,
                                            @RequestParam String subject,
