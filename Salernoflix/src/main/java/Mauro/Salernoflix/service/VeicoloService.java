@@ -65,4 +65,8 @@ public class VeicoloService {
             .toList();
     }
 
+    public List<String> listaMarche() {
+        return veicoloRepository.findMarche();
+    }
+
 }

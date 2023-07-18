@@ -7,6 +7,7 @@ import Mauro.Salernoflix.service.PrenotazioniService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +28,15 @@ public class PrenotazioneController {
     @GetMapping("/prenotazioni")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
     public ResponseEntity<List<Prenotazione>> listaPrenotazioni(@RequestParam(defaultValue = "20") int pageSize,
-                                                  @RequestParam(defaultValue = "0") int pageNumber) {
+                                                                @RequestParam(defaultValue = "0") int pageNumber) {
         return ResponseEntity.ok(prenotazioniService.prenotazioni(pageSize, pageNumber));
+    }
+
+    @DeleteMapping("/prenotazioni")
+    @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
+    public ResponseEntity<Void> eliminaPrenotazioni(@RequestBody @NonNull List<Long> idPrenotazioni) {
+        prenotazioniService.eliminaPrenotazioni(idPrenotazioni);
+        return ResponseEntity.ok().build();
     }
 
 }

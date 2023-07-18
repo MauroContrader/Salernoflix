@@ -12,6 +12,4 @@ public interface ContrattoRepository extends JpaRepository<Contratto, Long> {
 
     List<Contratto> findByTipologiaContratto(TipologiaContratto tipologiaContratto);
 
-
-
 }

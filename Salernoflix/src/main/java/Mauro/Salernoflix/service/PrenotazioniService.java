@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PrenotazioniService {
@@ -49,5 +50,15 @@ public class PrenotazioniService {
             .limit(pageSize)
             .toList();
 
+    }
+
+    public void eliminaPrenotazioni(List<Long> idPrenotazioni) {
+        if (SalSecurityContext.getPrincipal().getRole().equals(Role.ADMIN)) {
+            if (Objects.nonNull(idPrenotazioni)) {
+                prenotazioneRepository.deleteAllById(idPrenotazioni);
+            } else
+                throw new RuntimeException("Non sono stati inseriti id da eliminare.");
+        } else
+            throw new RuntimeException("Utente non abilitato alla cancellazione delle prenotazioni.");
     }
 }

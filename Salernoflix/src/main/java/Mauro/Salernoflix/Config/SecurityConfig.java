@@ -41,7 +41,7 @@ public class SecurityConfig {
                 "/auth/cambio-password"
             )
             .permitAll()
-            .and().authorizeHttpRequests().anyRequest().authenticated()
+            .and().authorizeHttpRequests().anyRequest().permitAll()
             .and().csrf().ignoringRequestMatchers("/**")
             .and().headers().frameOptions().sameOrigin()
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -42,4 +42,10 @@ public class VeicoloController {
                                                           @RequestParam(required = false) TipologiaVeicolo tipologiaVeicolo) {
         return ResponseEntity.ok(veicoloService.veicoliFiltrati(pageSize, pageNumber, annoImmatricolazione, cilindrata, cavalli, tipologiaVeicolo));
     }
+
+    @GetMapping("/lista-marche")
+    @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
+    private ResponseEntity<List<String>> listaMarche() {
+        return ResponseEntity.ok(veicoloService.listaMarche());
+    }
 }
