@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long> {
 
+    boolean existsByUser_IdAndVeicolo_Id(Long id, Long id1);
+
 }

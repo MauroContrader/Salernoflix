@@ -6,10 +6,13 @@ import Mauro.Salernoflix.model.Prenotazione;
 import Mauro.Salernoflix.service.PrenotazioniService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -19,17 +22,20 @@ public class PrenotazioneController {
     @Autowired
     PrenotazioniService prenotazioniService;
 
-    @PutMapping("/prenotazione")
+    @PostMapping(value = "/prenotazione")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
-    public ResponseEntity<Prenotazione> inserisciPrenotazione(PrenotazioneRequest prenotazioneRequest) {
+    public ResponseEntity<Prenotazione> inserisciPrenotazione(@RequestBody PrenotazioneRequest prenotazioneRequest) {
         return ResponseEntity.ok(prenotazioniService.inserisciPrenotazione(prenotazioneRequest));
     }
 
     @GetMapping("/prenotazioni")
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
     public ResponseEntity<List<Prenotazione>> listaPrenotazioni(@RequestParam(defaultValue = "20") int pageSize,
-                                                                @RequestParam(defaultValue = "0") int pageNumber) {
-        return ResponseEntity.ok(prenotazioniService.prenotazioni(pageSize, pageNumber));
+                                                                @RequestParam(defaultValue = "0") int pageNumber,
+                                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                @RequestParam(required = false) LocalDateTime dataInizio,
+                                                                @RequestParam(required = false) LocalDateTime dataFine) {
+        return ResponseEntity.ok(prenotazioniService.prenotazioni(pageSize, pageNumber, dataInizio, dataFine));
     }
 
     @DeleteMapping("/prenotazioni")
