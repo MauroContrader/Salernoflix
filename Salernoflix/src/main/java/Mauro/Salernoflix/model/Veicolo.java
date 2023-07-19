@@ -1,5 +1,7 @@
 package Mauro.Salernoflix.model;
 
+import Mauro.Salernoflix.dto.Enum.AlimentazioneEnum;
+import Mauro.Salernoflix.dto.Enum.StatoVeicoloEnum;
 import Mauro.Salernoflix.dto.Enum.TipologiaContratto;
 import Mauro.Salernoflix.dto.Enum.TipologiaVeicolo;
 import jakarta.persistence.*;
@@ -30,6 +32,16 @@ public class Veicolo {
     private Long annoImmatricolazione;
 
     private String seriale;
+
+    @Enumerated(EnumType.STRING)
+    private AlimentazioneEnum alimentazione;
+
+    private Long kilometri;
+
+    @Enumerated(EnumType.STRING)
+    private StatoVeicoloEnum statoVeicolo;
+
+    private Long prezzo;
 
     @Enumerated(EnumType.STRING)
     private TipologiaVeicolo tipologiaVeicolo;

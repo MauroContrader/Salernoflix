@@ -1,6 +1,8 @@
 package Mauro.Salernoflix.service;
 
+import Mauro.Salernoflix.dto.Enum.AlimentazioneEnum;
 import Mauro.Salernoflix.dto.Enum.Role;
+import Mauro.Salernoflix.dto.Enum.StatoVeicoloEnum;
 import Mauro.Salernoflix.dto.Enum.TipologiaVeicolo;
 import Mauro.Salernoflix.dto.Requests.VeicoloRequest;
 import Mauro.Salernoflix.model.Veicolo;
@@ -28,6 +30,10 @@ public class VeicoloService {
                 .cavalli(veicoloRequest.getCavalli())
                 .annoImmatricolazione(veicoloRequest.getAnnoImmatricolazione())
                 .seriale(veicoloRequest.getSeriale())
+                .alimentazione(veicoloRequest.getAlimentazione())
+                .kilometri(veicoloRequest.getKilometri())
+                .statoVeicolo(veicoloRequest.getStatoVeicolo())
+                .prezzo(veicoloRequest.getPrezzo())
                 .tipologiaVeicolo(veicoloRequest.getTipologiaVeicolo())
                 .build());
         } else
@@ -41,7 +47,7 @@ public class VeicoloService {
             throw new RuntimeException("Solo un admin può eseguire questa operazione.");
     }
 
-    public List<Veicolo> veicoliFiltrati(int pageSize, int pageNumber, Long annoImmatricolazione, Long cilindrata, Long cavalli, TipologiaVeicolo tipologiaVeicolo) {
+    public List<Veicolo> veicoliFiltrati(int pageSize, int pageNumber, Long annoImmatricolazione, Long cilindrata, Long cavalli, TipologiaVeicolo tipologiaVeicolo, AlimentazioneEnum alimentazione, Long kilometri, StatoVeicoloEnum statoVeicolo, Long prezzo) {
         List<Veicolo> tuttiIVeicoli = veicoloRepository.findAll();
         if (Objects.nonNull(annoImmatricolazione))
             tuttiIVeicoli = tuttiIVeicoli.stream().filter(
@@ -58,6 +64,22 @@ public class VeicoloService {
         if (Objects.nonNull(tipologiaVeicolo))
             tuttiIVeicoli = tuttiIVeicoli.stream().filter(
                 veicolo -> veicolo.getTipologiaVeicolo().equals(tipologiaVeicolo)
+            ).toList();
+        if (Objects.nonNull(alimentazione))
+            tuttiIVeicoli = tuttiIVeicoli.stream().filter(
+                veicolo -> veicolo.getAlimentazione().equals(alimentazione)
+            ).toList();
+        if (Objects.nonNull(kilometri))
+            tuttiIVeicoli = tuttiIVeicoli.stream().filter(
+                veicolo -> veicolo.getKilometri() >= kilometri
+            ).toList();
+        if (Objects.nonNull(statoVeicolo))
+            tuttiIVeicoli = tuttiIVeicoli.stream().filter(
+                veicolo -> veicolo.getStatoVeicolo().equals(statoVeicolo)
+            ).toList();
+        if (Objects.nonNull(prezzo))
+            tuttiIVeicoli = tuttiIVeicoli.stream().filter(
+                veicolo -> veicolo.getPrezzo() >= prezzo
             ).toList();
         return tuttiIVeicoli.stream()
             .skip((long) pageSize * pageNumber)

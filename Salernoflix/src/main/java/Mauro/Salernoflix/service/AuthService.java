@@ -104,9 +104,9 @@ public class AuthService {
             user.setEmailVerificata(true);
             userRepository.save(user);
             attivazioneAccountRepository.delete(attivazioneAccount);
+            return "Account attivato!";
         } else
-            throw new RuntimeException("Account già attivo");
-        return "Account attivato!";
+            throw new RuntimeException("Codice di attivazione scaduto");
     }
 
 }

@@ -1,6 +1,8 @@
 package Mauro.Salernoflix.controller;
 
 import Mauro.Salernoflix.Config.OpenApiConfig;
+import Mauro.Salernoflix.dto.Enum.AlimentazioneEnum;
+import Mauro.Salernoflix.dto.Enum.StatoVeicoloEnum;
 import Mauro.Salernoflix.dto.Enum.TipologiaVeicolo;
 import Mauro.Salernoflix.dto.Requests.VeicoloRequest;
 import Mauro.Salernoflix.model.Veicolo;
@@ -39,8 +41,14 @@ public class VeicoloController {
                                                           @RequestParam(required = false) Long annoImmatricolazione,
                                                           @RequestParam(required = false) Long cilindrata,
                                                           @RequestParam(required = false) Long cavalli,
-                                                          @RequestParam(required = false) TipologiaVeicolo tipologiaVeicolo) {
-        return ResponseEntity.ok(veicoloService.veicoliFiltrati(pageSize, pageNumber, annoImmatricolazione, cilindrata, cavalli, tipologiaVeicolo));
+                                                          @RequestParam(required = false) TipologiaVeicolo tipologiaVeicolo,
+                                                          @RequestParam(required = false) AlimentazioneEnum alimentazione,
+                                                          @RequestParam(required = false) Long kilometri,
+                                                          @RequestParam(required = false) StatoVeicoloEnum statoVeicolo,
+                                                          @RequestParam(required = false) Long prezzo) {
+        return ResponseEntity.ok(veicoloService.veicoliFiltrati(
+            pageSize, pageNumber, annoImmatricolazione, cilindrata, cavalli,
+            tipologiaVeicolo, alimentazione, kilometri, statoVeicolo, prezzo));
     }
 
     @GetMapping("/lista-marche")
