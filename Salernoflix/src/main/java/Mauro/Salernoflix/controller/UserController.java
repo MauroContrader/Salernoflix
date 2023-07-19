@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -45,8 +46,8 @@ public class UserController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
-    public ResponseEntity<AnagraficaUtente> patchAnagraficaUtente(@RequestBody AnagraficaUtenteRequest anagraficaUtenteRequest) {
-        return ResponseEntity.ok(userService.patchAnagraficaUtenteLoggato(anagraficaUtenteRequest));
+    public ResponseEntity<AnagraficaUtente> patchAnagraficaUtente(@RequestBody HashMap<String,Object> request) {
+        return ResponseEntity.ok(userService.patchAnagraficaUtenteLoggato(request));
     }
 
 }

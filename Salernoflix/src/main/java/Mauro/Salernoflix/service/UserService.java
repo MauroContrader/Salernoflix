@@ -10,7 +10,10 @@ import Mauro.Salernoflix.repository.UserRepository;
 import Mauro.Salernoflix.security.SalSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,23 +60,16 @@ public class UserService {
             : null;
     }
 
-    public AnagraficaUtente patchAnagraficaUtenteLoggato(AnagraficaUtenteRequest anagraficaUtenteRequest) {
-        AnagraficaUtente anagraficaUtente = userRepository.findById(SalSecurityContext.getPrincipal().getId()).get().getAnagraficaUtente();
-        if (Objects.nonNull(anagraficaUtenteRequest.getNome()))
-            anagraficaUtente.setNome(anagraficaUtenteRequest.getNome());
-        if (Objects.nonNull(anagraficaUtenteRequest.getCognome()))
-            anagraficaUtente.setCognome(anagraficaUtenteRequest.getCognome());
-        if (Objects.nonNull(anagraficaUtenteRequest.getCitta()))
-            anagraficaUtente.setCitta(anagraficaUtenteRequest.getCitta());
-        if (Objects.nonNull(anagraficaUtenteRequest.getCodiceFiscale()))
-            anagraficaUtente.setCodiceFiscale(anagraficaUtenteRequest.getCodiceFiscale());
-        if (Objects.nonNull(anagraficaUtenteRequest.getIndirizzo()))
-            anagraficaUtente.setIndirizzo(anagraficaUtenteRequest.getIndirizzo());
-        if (Objects.nonNull(anagraficaUtenteRequest.getEmail()))
-            anagraficaUtente.setEmail(anagraficaUtenteRequest.getEmail());
-        if (Objects.nonNull(anagraficaUtenteRequest.getCellulare()))
-            anagraficaUtente.setCellulare(anagraficaUtenteRequest.getCellulare());
-        return anagraficaUtenteRepository.save(anagraficaUtente);
+    public AnagraficaUtente patchAnagraficaUtenteLoggato(HashMap<String,Object> request) {
+        AnagraficaUtente anagraficaUtente = anagraficaUtenteRepository.findById(SalSecurityContext.getPrincipal().getAnagraficaUtente().getId()).orElseThrow(
+            () -> new RuntimeException("Anagrafica utente non trovata"));
+            request.forEach((key, value) -> {
+                Field field = ReflectionUtils.findField(AnagraficaUtente.class, key);
+                field.setAccessible(true);
+                ReflectionUtils.setField(field,anagraficaUtente, value);
+                }
+            );
+            return anagraficaUtenteRepository.save(anagraficaUtente);
     }
 
 }
