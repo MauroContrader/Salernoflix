@@ -33,15 +33,15 @@ public class Veicolo {
 
     private String seriale;
 
+    private Long kilometri;
+
+    private Long prezzo;
+
     @Enumerated(EnumType.STRING)
     private AlimentazioneEnum alimentazione;
 
-    private Long kilometri;
-
     @Enumerated(EnumType.STRING)
     private StatoVeicoloEnum statoVeicolo;
-
-    private Long prezzo;
 
     @Enumerated(EnumType.STRING)
     private TipologiaVeicolo tipologiaVeicolo;

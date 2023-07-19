@@ -10,7 +10,10 @@ import Mauro.Salernoflix.repository.VeicoloRepository;
 import Mauro.Salernoflix.security.SalSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,10 +33,10 @@ public class VeicoloService {
                 .cavalli(veicoloRequest.getCavalli())
                 .annoImmatricolazione(veicoloRequest.getAnnoImmatricolazione())
                 .seriale(veicoloRequest.getSeriale())
-                .alimentazione(veicoloRequest.getAlimentazione())
                 .kilometri(veicoloRequest.getKilometri())
-                .statoVeicolo(veicoloRequest.getStatoVeicolo())
                 .prezzo(veicoloRequest.getPrezzo())
+                .alimentazione(veicoloRequest.getAlimentazione())
+                .statoVeicolo(veicoloRequest.getStatoVeicolo())
                 .tipologiaVeicolo(veicoloRequest.getTipologiaVeicolo())
                 .build());
         } else
@@ -47,7 +50,7 @@ public class VeicoloService {
             throw new RuntimeException("Solo un admin può eseguire questa operazione.");
     }
 
-    public List<Veicolo> veicoliFiltrati(int pageSize, int pageNumber, Long annoImmatricolazione, Long cilindrata, Long cavalli, TipologiaVeicolo tipologiaVeicolo, AlimentazioneEnum alimentazione, Long kilometri, StatoVeicoloEnum statoVeicolo, Long prezzo) {
+    public List<Veicolo> veicoliFiltrati(int pageSize, int pageNumber, Long annoImmatricolazione, Long cilindrata, Long cavalli, Long kilometri, Long prezzo, TipologiaVeicolo tipologiaVeicolo, AlimentazioneEnum alimentazione, StatoVeicoloEnum statoVeicolo) {
         List<Veicolo> tuttiIVeicoli = veicoloRepository.findAll();
         if (Objects.nonNull(annoImmatricolazione))
             tuttiIVeicoli = tuttiIVeicoli.stream().filter(
@@ -89,6 +92,17 @@ public class VeicoloService {
 
     public List<String> listaMarche() {
         return veicoloRepository.findMarche();
+    }
+
+    public Veicolo patchVeicolo(Long idVeicolo, HashMap<String, Object> request) {
+        Veicolo veicolo = veicoloRepository.findById(idVeicolo).orElseThrow(
+            () -> new RuntimeException("Veicolo non trovato"));
+        request.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(Veicolo.class, key);
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, veicolo, value);
+        });
+        return veicoloRepository.save(veicolo);
     }
 
 }

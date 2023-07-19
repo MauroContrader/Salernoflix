@@ -11,6 +11,7 @@
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/Config/SecurityConfig.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Enum/Role.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Requests/ContrattoRequest.java
+/home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Enum/StatoVeicoloEnum.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/model/Contratto.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/repository/ContrattoRepository.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/service/ContrattiService.java
@@ -25,6 +26,7 @@
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Enum/TipologiaContratto.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/controller/UserController.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Enum/TipologiaVeicolo.java
+/home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Enum/AlimentazioneEnum.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Responses/AuthenticationResponse.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/service/AuthService.java
 /home/maurocontrader/IdeaProjects/Salernoflix/Salernoflix/src/main/java/Mauro/Salernoflix/dto/Requests/AnagraficaUtenteRequest.java

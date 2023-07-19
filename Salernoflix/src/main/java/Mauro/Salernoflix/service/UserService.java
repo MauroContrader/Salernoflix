@@ -1,6 +1,5 @@
 package Mauro.Salernoflix.service;
 
-
 import Mauro.Salernoflix.dto.Enum.Role;
 import Mauro.Salernoflix.dto.Requests.AnagraficaUtenteRequest;
 import Mauro.Salernoflix.model.AnagraficaUtente;
@@ -22,6 +21,7 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     AnagraficaUtenteRepository anagraficaUtenteRepository;
 
@@ -60,16 +60,15 @@ public class UserService {
             : null;
     }
 
-    public AnagraficaUtente patchAnagraficaUtenteLoggato(HashMap<String,Object> request) {
+    public AnagraficaUtente patchAnagraficaUtenteLoggato(HashMap<String, Object> request) {
         AnagraficaUtente anagraficaUtente = anagraficaUtenteRepository.findById(SalSecurityContext.getPrincipal().getAnagraficaUtente().getId()).orElseThrow(
             () -> new RuntimeException("Anagrafica utente non trovata"));
-            request.forEach((key, value) -> {
-                Field field = ReflectionUtils.findField(AnagraficaUtente.class, key);
-                field.setAccessible(true);
-                ReflectionUtils.setField(field,anagraficaUtente, value);
-                }
-            );
-            return anagraficaUtenteRepository.save(anagraficaUtente);
+        request.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(AnagraficaUtente.class, key);
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, anagraficaUtente, value);
+        });
+        return anagraficaUtenteRepository.save(anagraficaUtente);
     }
 
 }

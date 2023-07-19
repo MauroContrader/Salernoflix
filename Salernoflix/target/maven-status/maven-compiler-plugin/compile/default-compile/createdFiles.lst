@@ -7,6 +7,7 @@ Mauro/Salernoflix/repository/AnagraficaUtenteRepository.class
 Mauro/Salernoflix/dto/Requests/AuthenticationRequest.class
 Mauro/Salernoflix/dto/Requests/AuthenticationRequest$AuthenticationRequestBuilder.class
 Mauro/Salernoflix/service/AuthService.class
+Mauro/Salernoflix/dto/Enum/StatoVeicoloEnum.class
 Mauro/Salernoflix/Config/SecurityConfig.class
 Mauro/Salernoflix/dto/Enum/Role.class
 Mauro/Salernoflix/dto/Requests/RegisterRequest$RegisterRequestBuilder.class
@@ -23,6 +24,7 @@ Mauro/Salernoflix/Config/JwtService.class
 Mauro/Salernoflix/dto/Enum/TipologiaVeicolo.class
 Mauro/Salernoflix/dto/Requests/ContrattoRequest$ContrattoRequestBuilder.class
 Mauro/Salernoflix/service/ContrattiService.class
+Mauro/Salernoflix/dto/Enum/AlimentazioneEnum.class
 Mauro/Salernoflix/service/EmailService.class
 Mauro/Salernoflix/dto/Requests/AnagraficaUtenteRequest$AnagraficaUtenteRequestBuilder.class
 Mauro/Salernoflix/dto/Responses/AuthenticationResponse$AuthenticationResponseBuilder.class
