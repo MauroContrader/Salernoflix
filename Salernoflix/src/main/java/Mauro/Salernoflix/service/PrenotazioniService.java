@@ -11,6 +11,7 @@ import Mauro.Salernoflix.security.SalSecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class PrenotazioniService {
     public Prenotazione inserisciPrenotazione(PrenotazioneRequest prenotazioneRequest) {
 
         if (SalSecurityContext.getPrincipal().getRole().equals(Role.ADMIN)) {
-            if (!prenotazioneRepository.existsByUser_IdAndVeicolo_Id(prenotazioneRequest.getIdCliente(),prenotazioneRequest.getIdVeicolo())) {
+            if (!prenotazioneRepository.existsByUser_IdAndVeicolo_Id(prenotazioneRequest.getIdCliente(), prenotazioneRequest.getIdVeicolo())) {
                 return prenotazioneRepository.save(
                     Prenotazione.builder()
                         .dataInizio(prenotazioneRequest.getDataInizio())
@@ -42,44 +43,52 @@ public class PrenotazioniService {
                         .veicolo(veicoloRepository.findById(prenotazioneRequest.getIdVeicolo()).orElseThrow(
                             () -> new RuntimeException("Veicolo con id: " + prenotazioneRequest.getIdVeicolo() + " non trovato")
                         ))
+                        .operatore(SalSecurityContext.getPrincipal().getUser())
                         .build()
                 );
             } else
-                throw new RuntimeException("Prenotazione già presente in archivio");
+                throw new RuntimeException("Prenotazione già presente in archivio.");
         } else
             throw new RuntimeException("Utente non abilitato all'inserimento prenotazioni.");
     }
 
-    public List<Prenotazione> prenotazioni(int pageSize, int pageNumber, LocalDateTime dataInizio, LocalDateTime dataFine) {
+    public List<Prenotazione> prenotazioni(int pageSize, int pageNumber, LocalDate dataInizio, LocalDate dataFine, Long idUser) {
+        List<Prenotazione> prenotazioni = null;
         if (Objects.nonNull(dataInizio) && Objects.nonNull(dataFine)) {
-            return prenotazioneRepository.findAll().stream().filter(
-                    prenotazione -> prenotazione.getDataInizio().isAfter(dataInizio)  ||
-                        prenotazione.getDataInizio().isEqual(dataInizio) &&
-                        prenotazione.getDataFine().isBefore(dataFine) ||
-                        prenotazione.getDataFine().isEqual(dataFine)
-                ).skip((long) pageSize * pageNumber)
-                .limit(pageSize)
-                .toList();
+            LocalDateTime dataInizioFormattata = dataInizio.atTime(0, 0);
+            LocalDateTime dataFineFormattata = dataFine.atTime(0, 0);
+            prenotazioni = prenotazioneRepository.findAll().stream().filter(
+                prenotazione -> prenotazione.getDataInizio().isAfter(dataInizioFormattata) ||
+                    prenotazione.getDataInizio().isEqual(dataInizioFormattata) &&
+                        prenotazione.getDataFine().isBefore(dataFineFormattata) ||
+                    prenotazione.getDataFine().isEqual(dataFineFormattata)
+            ).toList();
         } else if (Objects.nonNull(dataInizio)) {
-            return prenotazioneRepository.findAll().stream().filter(
-                    prenotazione -> prenotazione.getDataInizio().isAfter(dataInizio) ||
-                        prenotazione.getDataInizio().isEqual(dataInizio)
-                ).skip((long) pageSize * pageNumber)
-                .limit(pageSize)
-                .toList();
+            LocalDateTime dataInizioFormattata = dataInizio.atTime(0, 0);
+            prenotazioni = prenotazioneRepository.findAll().stream().filter(
+                prenotazione -> prenotazione.getDataInizio().isAfter(dataInizioFormattata) ||
+                    prenotazione.getDataInizio().isEqual(dataInizioFormattata)
+            ).toList();
         } else if (Objects.nonNull(dataFine)) {
-            return prenotazioneRepository.findAll().stream().filter(
-                    prenotazione -> prenotazione.getDataFine().isBefore(dataFine) ||
-                        prenotazione.getDataFine().isEqual(dataFine)
+            LocalDateTime dataFineFormattata = dataFine.atTime(0, 0);
+            prenotazioni = prenotazioneRepository.findAll().stream().filter(
+                prenotazione -> prenotazione.getDataFine().isBefore(dataFineFormattata) ||
+                    prenotazione.getDataFine().isEqual(dataFineFormattata)
+            ).toList();
+        }
+        if (Objects.isNull(prenotazioni))
+            prenotazioni = prenotazioneRepository.findAll();
+        if (Objects.nonNull(idUser))
+            return prenotazioni.stream().filter(
+                    prenotazione -> prenotazione.getUser().getId().equals(idUser)
                 ).skip((long) pageSize * pageNumber)
                 .limit(pageSize)
                 .toList();
-        }
-        return prenotazioneRepository.findAll().stream()
-            .skip((long) pageSize * pageNumber)
-            .limit(pageSize)
-            .toList();
-
+        else
+            return prenotazioni.stream()
+                .skip((long) pageSize * pageNumber)
+                .limit(pageSize)
+                .toList();
     }
 
     public void eliminaPrenotazioni(List<Long> idPrenotazioni) {

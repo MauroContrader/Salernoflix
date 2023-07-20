@@ -71,4 +71,13 @@ public class UserService {
         return anagraficaUtenteRepository.save(anagraficaUtente);
     }
 
+    public AnagraficaUtente getAnagraficaUtenteById(Long idUser) {
+        User user = userRepository.findById(idUser)
+            .orElseThrow(() -> new RuntimeException("User non trovato."));
+        if (Objects.nonNull(user.getAnagraficaUtente()))
+            return user.getAnagraficaUtente();
+        else
+            throw new RuntimeException("L'utente non ha inserito un anagrafica utente.");
+    }
+
 }

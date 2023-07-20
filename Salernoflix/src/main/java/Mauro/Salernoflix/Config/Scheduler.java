@@ -17,10 +17,11 @@ public class Scheduler {
 
     @Autowired
     AttivazioneAccountRepository attivazioneAccountRepository;
+
     @Autowired
     UserRepository userRepository;
 
-    @Scheduled(fixedRate = (1000 * 60 * 60 *24))
+    @Scheduled(fixedRate = (1000 * 60 * 60 * 24))
     public void deleteCodiciAttivazione() {
         List<AttivazioneAccount> attivazioniScadute = attivazioneAccountRepository.findAll().stream().filter(
             attivazione -> attivazione.getDataIscrizione().isBefore(LocalDateTime.now().minusWeeks(1))

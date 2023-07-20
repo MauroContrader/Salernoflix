@@ -50,4 +50,10 @@ public class UserController {
         return ResponseEntity.ok(userService.patchAnagraficaUtenteLoggato(request));
     }
 
+    @GetMapping("/anagraficaUtente")
+    @SecurityRequirement(name = OpenApiConfig.SALERNO_SECURITY_SCHEME)
+    public ResponseEntity<AnagraficaUtente> getAnagraficaUtenteById(@RequestParam Long id) {
+        return ResponseEntity.ok(userService.getAnagraficaUtenteById(id));
+    }
+
 }

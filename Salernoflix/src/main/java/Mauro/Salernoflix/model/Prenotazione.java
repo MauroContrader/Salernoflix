@@ -27,4 +27,7 @@ public class Prenotazione {
     @ManyToOne
     private Veicolo veicolo;
 
+    @ManyToOne
+    private User operatore;
+
 }

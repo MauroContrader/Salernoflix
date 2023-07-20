@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,9 +34,10 @@ public class PrenotazioneController {
     public ResponseEntity<List<Prenotazione>> listaPrenotazioni(@RequestParam(defaultValue = "20") int pageSize,
                                                                 @RequestParam(defaultValue = "0") int pageNumber,
                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                                @RequestParam(required = false) LocalDateTime dataInizio,
-                                                                @RequestParam(required = false) LocalDateTime dataFine) {
-        return ResponseEntity.ok(prenotazioniService.prenotazioni(pageSize, pageNumber, dataInizio, dataFine));
+                                                                @RequestParam(required = false) LocalDate dataInizio,
+                                                                @RequestParam(required = false) LocalDate dataFine,
+                                                                @RequestParam(required = false) Long idUser) {
+        return ResponseEntity.ok(prenotazioniService.prenotazioni(pageSize, pageNumber, dataInizio, dataFine, idUser));
     }
 
     @DeleteMapping("/prenotazioni")
