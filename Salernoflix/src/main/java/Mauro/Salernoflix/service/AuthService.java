@@ -36,18 +36,21 @@ public class AuthService {
     AttivazioneAccountRepository attivazioneAccountRepository;
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUsername(),
-                authenticationRequest.getPassword()
-            )
-        );
-        var user = userRepository.findByUsername(authenticationRequest.getUsername());
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse
-            .builder()
-            .token(jwtToken)
-            .build();
+        if (userRepository.findByUsername(authenticationRequest.getUsername()).getEmailVerificata()) {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getUsername(),
+                    authenticationRequest.getPassword()
+                )
+            );
+            var user = userRepository.findByUsername(authenticationRequest.getUsername());
+            var jwtToken = jwtService.generateToken(user, authenticationRequest.getRememberMe());
+            return AuthenticationResponse
+                .builder()
+                .token(jwtToken)
+                .build();
+        } else
+            throw new RuntimeException("Account non abilitato, puoi abilitarlo tramite il link che ti è stato inviato per email.");
     }
 
     public String register(RegisterRequest registerRequest) {
@@ -66,7 +69,6 @@ public class AuthService {
                 registerRequest.getUsername(),
                 "Conferma registrazione",
                 "Benvenuto su Salernoflix! Per favore conferma la tua iscrizione cliccando sul seguente link: \n" + linkAttivazione);
-            var jwtToken = jwtService.generateToken(user);
             return linkAttivazione;
         }
         throw new RuntimeException("Utente già iscritto.");

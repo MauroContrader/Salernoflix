@@ -21,7 +21,7 @@ public class JwtService {
     private static final String SECRET_KEY = "yv9xcfnYGpxD5gNUZsoAfgOVDQNm4VZ9TqO1VPibugw";
 
     public String extractUsername(String token) {
-        return extractClaim(token,Claims::getSubject);
+        return extractClaim(token, Claims::getSubject);
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -29,21 +29,23 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(UserDetails userDetails, Boolean rememberMe) {
+        return generateToken(new HashMap<>(), userDetails, rememberMe);
     }
 
     public String generateToken(
-        Map<String,Object> extraClaims,
-        UserDetails userDetails) {
+        Map<String, Object> extraClaims,
+        UserDetails userDetails,
+        Boolean rememberMe) {
         return Jwts
             .builder()
             .setId(UUID.randomUUID().toString())
             .setClaims(extraClaims)
             .setSubject(userDetails.getUsername())
             .claim("roles", ((User) userDetails).getRole())
+            .claim("rememberMe", rememberMe)
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + (10000 * 60 * 60 * 24)))
+            .setExpiration(rememberMe ? new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7) : new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
             .signWith(SignatureAlgorithm.HS256, getSigningKey())
             .compact();
     }

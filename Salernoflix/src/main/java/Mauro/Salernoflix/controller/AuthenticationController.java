@@ -19,7 +19,6 @@ public class AuthenticationController {
 
     @Autowired
     AuthenticationManager authenticationManager;
-
     @Autowired
     AuthService authService;
     @Autowired
